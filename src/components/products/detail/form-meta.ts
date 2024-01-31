@@ -1,16 +1,16 @@
-import {ProductDetailTab} from "./ProductDetail"
-import {IProduct} from "types/ordercloud/IProduct"
-import {IPriceSchedule} from "types/ordercloud/IPriceSchedule"
-import {v4 as randomId} from "uuid"
-import {ISpec} from "types/ordercloud/ISpec"
-import {IVariant} from "types/ordercloud/IVariant"
-import {ProductCatalogAssignment} from "ordercloud-javascript-sdk"
-import {ICategoryProductAssignment} from "types/ordercloud/ICategoryProductAssignment"
-import {array, bool, boolean, number, object, string} from "yup"
-import {emptyStringToNull, nullToFalse, orderCloudIDRegex} from "utils"
-import {OverridePriceScheduleFieldValues} from "types/form/OverridePriceScheduleFieldValues"
-import {compact, uniqBy} from "lodash"
-import {IInventoryRecord} from "types/ordercloud/IInventoryRecord"
+import { ProductDetailTab } from "./ProductDetail"
+import { IProduct } from "types/ordercloud/IProduct"
+import { IPriceSchedule } from "types/ordercloud/IPriceSchedule"
+import { v4 as randomId } from "uuid"
+import { ISpec } from "types/ordercloud/ISpec"
+import { IVariant } from "types/ordercloud/IVariant"
+import { ProductCatalogAssignment } from "ordercloud-javascript-sdk"
+import { ICategoryProductAssignment } from "types/ordercloud/ICategoryProductAssignment"
+import { array, bool, boolean, number, object, string } from "yup"
+import { emptyStringToNull, nullToFalse, orderCloudIDRegex } from "utils"
+import { OverridePriceScheduleFieldValues } from "types/form/OverridePriceScheduleFieldValues"
+import { compact, uniqBy } from "lodash"
+import { IInventoryRecord } from "types/ordercloud/IInventoryRecord"
 
 export interface ProductDetailFormFields {
   Product: IProduct
@@ -50,7 +50,6 @@ export const defaultValues: ProductDetailFormFields = {
       ShipLinearUnit: "in",
       ShipWeightUnit: "lb",
       ShipFromCompanyID: "",
-      UnitOfMeasure: "each",
       ShipsFromMultipleLocations: false
     }
   },
@@ -59,7 +58,7 @@ export const defaultValues: ProductDetailFormFields = {
     SaleStart: null,
     SaleEnd: null,
     RestrictedQuantity: false,
-    PriceBreaks: [{Quantity: 1, Price: null, SalePrice: null, SubscriptionPrice: null}],
+    PriceBreaks: [{ Quantity: 1, Price: null, SalePrice: null, SubscriptionPrice: null }],
     MinQuantity: null,
     MaxQuantity: null
   },
@@ -150,7 +149,6 @@ export const validationSchema = object().shape({
       ShipLinearUnit: string(),
       ShipWeightUnit: string(),
       ShipFromCompanyID: string(),
-      UnitOfMeasure: string().max(50),
       ShipsFromMultipleLocations: boolean()
     })
   }),
@@ -188,8 +186,7 @@ export const tabFieldNames: Record<ProductDetailTab, any[]> = {
     "Product.xp.ShipLinearUnit",
     "Product.ShipWeight",
     "Product.xp.ShipWeightUnit",
-    "Product.Returnable",
-    "Product.xp.UnitOfMeasure"
+    "Product.Returnable"
   ],
   Variants: [],
   Media: [],
