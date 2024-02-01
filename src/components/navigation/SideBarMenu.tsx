@@ -1,4 +1,4 @@
-import {Button, Flex, Hide, Icon, useColorModeValue, VStack} from "@chakra-ui/react"
+import { Button, Flex, Hide, Icon, useColorModeValue, VStack } from "@chakra-ui/react"
 import React from "react"
 import {
   TbBuildingWarehouse,
@@ -11,25 +11,25 @@ import {
   TbUserCheck
 } from "react-icons/tb"
 import ProtectedContent from "../auth/ProtectedContent"
-import {appPermissions} from "config/app-permissions.config"
-import {Link} from "@chakra-ui/next-js"
+import { appPermissions } from "config/app-permissions.config"
+import { Link } from "@chakra-ui/next-js"
 import schraTheme from "theme/theme"
-import {useRouter} from "next/router"
-import {useAuth} from "hooks/useAuth"
-import {settingsPageItems} from "@/pages/settings"
+import { useRouter } from "next/router"
+import { useAuth } from "hooks/useAuth"
+import { settingsPageItems } from "@/pages/settings"
 
 interface SidebarMenuProps {
   isInDrawer?: boolean
   onLinkClick?: () => void
 }
-const SidebarMenu = ({isInDrawer, onLinkClick}: SidebarMenuProps) => {
+const SidebarMenu = ({ isInDrawer, onLinkClick }: SidebarMenuProps) => {
   const router = useRouter()
-  const {isSupplier} = useAuth()
+  const { isSupplier } = useAuth()
   const btnActiveColor = useColorModeValue("inherit", "whiteAlpha.800")
   const btnActiveBgColor = useColorModeValue("white", "whiteAlpha.200")
 
   const data = [
-    {label: "Dashboard", path: "/dashboard", icon: TbLayout, permisshies: appPermissions.DashboardViewer},
+    { label: "Dashboard", path: "/dashboard", icon: TbLayout, permisshies: appPermissions.DashboardViewer },
     {
       label: "Products",
       path: "/products",
@@ -62,17 +62,23 @@ const SidebarMenu = ({isInDrawer, onLinkClick}: SidebarMenuProps) => {
     },
     isSupplier
       ? {
-          label: "My Supplier",
-          path: "/mysupplier",
-          icon: TbBuildingWarehouse,
-          permisshies: [appPermissions.SupplierViewer, appPermissions.SupplierManager]
-        }
+        label: "My Supplier",
+        path: "/mysupplier",
+        icon: TbBuildingWarehouse,
+        permisshies: [appPermissions.SupplierViewer, appPermissions.SupplierManager]
+      }
       : {
-          label: "Suppliers",
-          path: "/suppliers",
-          icon: TbBuildingWarehouse,
-          permisshies: [appPermissions.SupplierViewer, appPermissions.SupplierManager]
-        },
+        label: "Suppliers",
+        path: "/suppliers",
+        icon: TbBuildingWarehouse,
+        permisshies: [appPermissions.SupplierViewer, appPermissions.SupplierManager]
+      },
+    {
+      label: "Pages",
+      path: "/pages",
+      icon: TbUserCheck,
+      permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
+    },
     {
       label: "settings",
       path: "/settings",
@@ -96,10 +102,10 @@ const SidebarMenu = ({isInDrawer, onLinkClick}: SidebarMenuProps) => {
           boxShadow: "sm",
           borderColor: "chakra-border-color"
         }}
-        _hover={{textDecoration: "none", backgroundColor: btnActiveBgColor, boxShadow: "md"}}
+        _hover={{ textDecoration: "none", backgroundColor: btnActiveBgColor, boxShadow: "md" }}
         border={".5px solid transparent"}
         textDecoration={"none"}
-        style={{marginTop: 0}}
+        style={{ marginTop: 0 }}
         fontWeight="normal"
         p={3}
         transition={"all .25s cubic-bezier(0.55, 0, 1, 0.45)"}
