@@ -2,13 +2,18 @@ import { Button, Flex, Hide, Icon, useColorModeValue, VStack } from "@chakra-ui/
 import React from "react"
 import {
   TbBuildingWarehouse,
+  TbDeviceAnalytics,
   TbLayout,
   TbReceipt2,
   TbSettings2,
   TbShoppingCartDiscount,
   TbShoppingCartPlus,
   TbTruckReturn,
-  TbUserCheck
+  TbUserCheck,
+  TbAd,
+  TbPhotoVideo,
+  TbTemplate,
+  TbTag
 } from "react-icons/tb"
 import ProtectedContent from "../auth/ProtectedContent"
 import { appPermissions } from "config/app-permissions.config"
@@ -30,6 +35,12 @@ const SidebarMenu = ({ isInDrawer, onLinkClick }: SidebarMenuProps) => {
 
   const data = [
     { label: "Dashboard", path: "/dashboard", icon: TbLayout, permisshies: appPermissions.DashboardViewer },
+    {
+      label: "Analytics",
+      path: "/analytics",
+      icon: TbDeviceAnalytics,
+      permisshies: [appPermissions.DashboardViewer]
+    },
     {
       label: "Products",
       path: "/products",
@@ -74,17 +85,39 @@ const SidebarMenu = ({ isInDrawer, onLinkClick }: SidebarMenuProps) => {
         permisshies: [appPermissions.SupplierViewer, appPermissions.SupplierManager]
       },
     {
-      label: "Pages",
-      path: "/pages",
-      icon: TbUserCheck,
-      permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
-    },
-    {
       label: "settings",
       path: "/settings",
       icon: TbSettings2,
       permisshies: settingsPageItems.map((item) => item.permisshies).flat()
-    }
+    },
+    {
+      label: "Content",
+      path: "https://content.sitecorecloud.io/content?organization=org_Yr0e8LadQ1bxB05s&tenantName=hc-sales-7-ea-df769&page=1&contentTypeId=commercedemopage%2Ccommercedemopromo",
+      target: "_blank",
+      icon: TbAd,
+      permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
+    },
+    {
+      label: "media",
+      path: "https://content.sitecorecloud.io/media?organization=org_Yr0e8LadQ1bxB05s&tenantName=hc-sales-7-ea-df769&page=1&searchTerm=commerce",
+      target: "_blank",
+      icon: TbPhotoVideo,
+      permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
+    },
+    {
+      label: "Content Model",
+      path: "https://content.sitecorecloud.io/content-types?organization=org_Yr0e8LadQ1bxB05s&tenantName=hc-sales-7-ea-df769",
+      target: "_blank",
+      icon: TbTemplate,
+      permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
+    },
+    {
+      label: "Content Taxonomy",
+      path: "https://content.sitecorecloud.io/taxonomies?organization=org_Yr0e8LadQ1bxB05s&tenantName=hc-sales-7-ea-df769",
+      target: "_blank",
+      icon: TbTag,
+      permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
+    },
   ]
 
   const links = data.map((item) => (
@@ -93,6 +126,7 @@ const SidebarMenu = ({ isInDrawer, onLinkClick }: SidebarMenuProps) => {
         as={Link}
         onClick={onLinkClick}
         href={item.path}
+        target={item.target}
         variant="ghost"
         leftIcon={<Icon as={item.icon} strokeWidth="1.25" fontSize="1.5em" />}
         isActive={"/" + item.label === router?.pathname}
