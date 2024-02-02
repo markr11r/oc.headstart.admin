@@ -1,3 +1,4 @@
+import { appSettings } from "config/app-settings"
 import { Button, Flex, Hide, Icon, useColorModeValue, VStack } from "@chakra-ui/react"
 import React from "react"
 import {
@@ -7,6 +8,7 @@ import {
   TbReceipt2,
   TbSettings2,
   TbShoppingCartDiscount,
+  TbDiscount2,
   TbShoppingCartPlus,
   TbTruckReturn,
   TbUserCheck,
@@ -50,7 +52,7 @@ const SidebarMenu = ({ isInDrawer, onLinkClick }: SidebarMenuProps) => {
     {
       label: "Promotions",
       path: "/promotions",
-      icon: TbShoppingCartDiscount,
+      icon: TbDiscount2,
       permisshies: [appPermissions.PromotionViewer, appPermissions.PromotionManager]
     },
     {
@@ -63,6 +65,12 @@ const SidebarMenu = ({ isInDrawer, onLinkClick }: SidebarMenuProps) => {
       label: "Returns",
       path: "/returns",
       icon: TbTruckReturn,
+      permisshies: [appPermissions.OrderViewer, appPermissions.OrderManager]
+    },
+    {
+      label: "Quotes",
+      path: "/quotes",
+      icon: TbTag,
       permisshies: [appPermissions.OrderViewer, appPermissions.OrderManager]
     },
     {
@@ -92,28 +100,28 @@ const SidebarMenu = ({ isInDrawer, onLinkClick }: SidebarMenuProps) => {
     },
     {
       label: "Content",
-      path: "https://content.sitecorecloud.io/content?organization=org_Yr0e8LadQ1bxB05s&tenantName=hc-sales-7-ea-df769&page=1&contentTypeId=commercedemopage%2Ccommercedemopromo",
+      path: appSettings.ContentUrl,
       target: "_blank",
       icon: TbAd,
       permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
     },
     {
       label: "media",
-      path: "https://content.sitecorecloud.io/media?organization=org_Yr0e8LadQ1bxB05s&tenantName=hc-sales-7-ea-df769&page=1&searchTerm=commerce",
+      path: appSettings.MediaUrl,
       target: "_blank",
       icon: TbPhotoVideo,
       permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
     },
     {
       label: "Content Model",
-      path: "https://content.sitecorecloud.io/content-types?organization=org_Yr0e8LadQ1bxB05s&tenantName=hc-sales-7-ea-df769",
+      path: appSettings.ContentModelUrl,
       target: "_blank",
       icon: TbTemplate,
       permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
     },
     {
       label: "Content Taxonomy",
-      path: "https://content.sitecorecloud.io/taxonomies?organization=org_Yr0e8LadQ1bxB05s&tenantName=hc-sales-7-ea-df769",
+      path: appSettings.ContentTaxonomyUrl,
       target: "_blank",
       icon: TbTag,
       permisshies: [appPermissions.ProductViewer, appPermissions.ProductManager]
