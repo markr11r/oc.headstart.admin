@@ -8,8 +8,8 @@
  * 3. Create a strongly typed interface for the environment variables
  */
 
-import {DEFAULT_THEME_ACCENT, DEFAULT_THEME_PRIMARY, DEFAULT_THEME_SECONDARY} from "theme/foundations/colors"
-import {AVAILABLE_GOOGLE_FONTS} from "utils"
+import { DEFAULT_THEME_ACCENT, DEFAULT_THEME_PRIMARY, DEFAULT_THEME_SECONDARY } from "theme/foundations/colors"
+import { AVAILABLE_GOOGLE_FONTS } from "utils"
 
 // We can't use a dynamic key for process.env because it's not supported by NextJS due to how webpack's DefinePlugin works
 // So we must pass along both the name, and the value separately
@@ -83,5 +83,9 @@ export const appSettings = {
   ),
   themeFontHeading: getFont("NEXT_PUBLIC_THEME_FONT_HEADING", process.env.NEXT_PUBLIC_THEME_FONT_HEADING, ""),
   themeFontBody: getFont("NEXT_PUBLIC_THEME_FONT_BODY", process.env.NEXT_PUBLIC_THEME_FONT_BODY, ""),
-  themeLogoUrl: getEnvironmentVariable("NEXT_PUBLIC_THEME_LOGO_URL", process.env.NEXT_PUBLIC_THEME_LOGO_URL, "", false)
+  themeLogoUrl: getEnvironmentVariable("NEXT_PUBLIC_THEME_LOGO_URL", process.env.NEXT_PUBLIC_THEME_LOGO_URL, "", false),
+  ContentUrl: getEnvironmentVariable("NEXT_PUBLIC_CH1_CONTENT_URL", process.env.NEXT_PUBLIC_CH1_CONTENT_URL, "", false),
+  MediaUrl: getEnvironmentVariable("NEXT_PUBLIC_CH1_MEDIA_URL", process.env.NEXT_PUBLIC_CH1_MEDIA_URL, "", false),
+  ContentModelUrl: getEnvironmentVariable("NEXT_PUBLIC_CH1_CONTENTMODEL_URL", process.env.NEXT_PUBLIC_CH1_CONTENTMODEL_URL, "", false),
+  ContentTaxonomyUrl: getEnvironmentVariable("NEXT_PUBLIC_CH1_CONTENTTAXONOMY_URL", process.env.NEXT_PUBLIC_CH1_CONTENTTAXONOMY_URL, "", false),
 }
