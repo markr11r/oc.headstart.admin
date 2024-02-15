@@ -1,4 +1,4 @@
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import {
   AdminAddresses,
   LineItems,
@@ -10,19 +10,19 @@ import {
   SupplierAddresses,
   Suppliers
 } from "ordercloud-javascript-sdk"
-import {useState, useEffect, useCallback} from "react"
-import {IOrder} from "types/ordercloud/IOrder"
-import {ILineItem} from "types/ordercloud/ILineItem"
-import {IOrderPromotion} from "types/ordercloud/IOrderPromotion"
-import {IPayment} from "types/ordercloud/IPayment"
-import {useAuth} from "./useAuth"
-import {ISupplier} from "types/ordercloud/ISupplier"
-import {compact, groupBy, uniq} from "lodash"
-import {ISupplierAddress} from "types/ordercloud/ISupplierAddress"
-import {IAdminAddress} from "types/ordercloud/IAdminAddress"
-import {IShipment} from "types/ordercloud/IShipment"
-import {IShipmentItem} from "types/ordercloud/IShipmentItem"
-import {IOrderReturn} from "types/ordercloud/IOrderReturn"
+import { useState, useEffect, useCallback } from "react"
+import { IOrder } from "types/ordercloud/IOrder"
+import { ILineItem } from "types/ordercloud/ILineItem"
+import { IOrderPromotion } from "types/ordercloud/IOrderPromotion"
+import { IPayment } from "types/ordercloud/IPayment"
+import { useAuth } from "./useAuth"
+import { ISupplier } from "types/ordercloud/ISupplier"
+import { compact, groupBy, uniq } from "lodash"
+import { ISupplierAddress } from "types/ordercloud/ISupplierAddress"
+import { IAdminAddress } from "types/ordercloud/IAdminAddress"
+import { IShipment } from "types/ordercloud/IShipment"
+import { IShipmentItem } from "types/ordercloud/IShipmentItem"
+import { IOrderReturn } from "types/ordercloud/IOrderReturn"
 
 // this two level map is used to store ship from addresses for each supplier
 // SupplierID will be null if it is an admin address
@@ -30,8 +30,8 @@ import {IOrderReturn} from "types/ordercloud/IOrderReturn"
 export type ShipFromAddressMap = Record<string, Record<string, ISupplierAddress | IAdminAddress>>
 
 export function useOrderDetail() {
-  const {isAdmin} = useAuth()
-  const {isReady, query} = useRouter()
+  const { isAdmin } = useAuth()
+  const { isReady, query } = useRouter()
   const [order, setOrder] = useState(null as IOrder)
   const [promotions, setPromotions] = useState([] as IOrderPromotion[])
   const [payments, setPayments] = useState([] as IPayment[])
@@ -43,7 +43,7 @@ export function useOrderDetail() {
   const [returns, setReturns] = useState([] as IOrderReturn[])
 
   const fetchLineItems = useCallback(async (order: IOrder) => {
-    const lineItemList = await LineItems.List<ILineItem>("All", order.ID, {pageSize: 100})
+    const lineItemList = await LineItems.List<ILineItem>("All", order.ID, { pageSize: 100 })
     const result = lineItemList.Items
     setLineItems(result)
     return result
@@ -87,7 +87,7 @@ export function useOrderDetail() {
       if (!uniqueSupplierIds.length) {
         return []
       }
-      const supplierList = await Suppliers.List<ISupplier>({filters: {ID: uniqueSupplierIds.join("|")}, pageSize: 100})
+      const supplierList = await Suppliers.List<ISupplier>({ filters: { ID: uniqueSupplierIds.join("|") }, pageSize: 100 })
       const result = supplierList.Items
       setSuppliers(result)
       return result
@@ -101,22 +101,22 @@ export function useOrderDetail() {
     const addressRequests = Object.entries(groupedLineItems).map(async ([supplierId, lineItems]) => {
       const uniqueAddressIds = uniq(compact(lineItems.map((lineItem) => lineItem.ShipFromAddressID)))
       if (!uniqueAddressIds.length) {
-        return {DefaultSupplierID: supplierId || null, Addresses: []}
+        return { DefaultSupplierID: supplierId || null, Addresses: [] }
       }
 
-      const isSupplierAddresses = Boolean(supplierId)
+      const isSupplierAddresses = Boolean(supplierId) && supplierId !== "null"
       if (isSupplierAddresses) {
         const addressList = await SupplierAddresses.List<ISupplierAddress>(supplierId, {
-          filters: {ID: uniqueAddressIds.join("|")},
+          filters: { ID: uniqueAddressIds.join("|") },
           pageSize: 100
         })
-        return {DefaultSupplierID: supplierId, Addresses: addressList.Items}
+        return { DefaultSupplierID: supplierId, Addresses: addressList.Items }
       }
       const addressList = await AdminAddresses.List<IAdminAddress>({
-        filters: {ID: uniqueAddressIds.join("|")},
+        filters: { ID: uniqueAddressIds.join("|") },
         pageSize: 100
       })
-      return {DefaultSupplierID: null, Addresses: addressList.Items}
+      return { DefaultSupplierID: null, Addresses: addressList.Items }
     })
     const responses = await Promise.all(addressRequests)
     const addressMap: ShipFromAddressMap = responses.reduce((acc, response) => {
@@ -140,9 +140,9 @@ export function useOrderDetail() {
   }, [])
 
   const fetchShipments = useCallback(async (order: IOrder) => {
-    const shipmentList = await Orders.ListShipments<IShipment>("All", order.ID, {pageSize: 100})
+    const shipmentList = await Orders.ListShipments<IShipment>("All", order.ID, { pageSize: 100 })
     const enhancedShipmentRequests = shipmentList.Items.map(async (shipment) => {
-      const shipmentItemsList = await Shipments.ListItems<IShipmentItem>(shipment.ID, {pageSize: 100})
+      const shipmentItemsList = await Shipments.ListItems<IShipmentItem>(shipment.ID, { pageSize: 100 })
       shipment.ShipmentItems = shipmentItemsList.Items
       return shipment
     })
@@ -152,7 +152,7 @@ export function useOrderDetail() {
   }, [])
 
   const fetchReturns = useCallback(async (order: IOrder) => {
-    const orderReturns = await OrderReturns.List({filters: {OrderID: order.ID}})
+    const orderReturns = await OrderReturns.List({ filters: { OrderID: order.ID } })
     const result = orderReturns.Items
     setReturns(result)
     return result

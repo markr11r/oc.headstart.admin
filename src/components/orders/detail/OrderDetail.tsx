@@ -1,21 +1,21 @@
-import {Card, CardBody, Container, Stack, VStack, Text, CardHeader, Heading} from "@chakra-ui/react"
-import {dateHelper} from "utils"
-import {OrderSummary} from "./order-summary/OrderSummary"
-import {OrderCustomer} from "./order-customer/OrderCustomer"
-import {OrderPayments} from "./order-payments/OrderPayments"
-import {useAuth} from "hooks/useAuth"
-import {OrderProducts} from "./order-products/OrderProducts"
-import {useOrderDetail} from "hooks/useOrderDetail"
-import {OrderStatus} from "../OrderStatus"
-import {ShipmentModal} from "./order-shipments/shipment-modal/ShipmentModal"
+import { Card, CardBody, Container, Stack, VStack, Text, CardHeader, Heading } from "@chakra-ui/react"
+import { dateHelper } from "utils"
+import { OrderSummary } from "./order-summary/OrderSummary"
+import { OrderCustomer } from "./order-customer/OrderCustomer"
+import { OrderPayments } from "./order-payments/OrderPayments"
+import { useAuth } from "hooks/useAuth"
+import { OrderProducts } from "./order-products/OrderProducts"
+import { useOrderDetail } from "hooks/useOrderDetail"
+import { OrderStatus } from "../OrderStatus"
+import { ShipmentModal } from "./order-shipments/shipment-modal/ShipmentModal"
 import ProtectedContent from "@/components/auth/ProtectedContent"
-import {appPermissions} from "config/app-permissions.config"
-import {Shipments} from "ordercloud-javascript-sdk"
-import {OrderShipments} from "./order-shipments/OrderShipments"
-import {OrderReturns} from "./order-returns/OrderReturns"
-import {ReturnModal} from "./order-returns/return-modal/ReturnModal"
-import {getMaxReturnQuantity} from "services/returns.service"
-import {HeaderItem} from "@/components/shared/HeaderItem"
+import { appPermissions } from "config/app-permissions.config"
+import { Shipments } from "ordercloud-javascript-sdk"
+import { OrderShipments } from "./order-shipments/OrderShipments"
+import { OrderReturns } from "./order-returns/OrderReturns"
+import { ReturnModal } from "./order-returns/return-modal/ReturnModal"
+import { getMaxReturnQuantity } from "services/returns.service"
+import { HeaderItem } from "@/components/shared/HeaderItem"
 
 type OrderDetailProps = ReturnType<typeof useOrderDetail>
 
@@ -33,7 +33,7 @@ export function OrderDetail({
   fetchLineItems,
   fetchReturns
 }: OrderDetailProps) {
-  const {isAdmin} = useAuth()
+  const { isAdmin } = useAuth()
   const shippingAddress = lineItems?.length ? lineItems[0].ShippingAddress : null
   const orderDetailCardGap = 3
 
@@ -67,6 +67,10 @@ export function OrderDetail({
     return lineItem.QuantityShipped && lineItem.Product.Returnable && getMaxReturnQuantity(lineItem, returns)
   })
 
+  const refreshOrderAndLines = async () => {
+    await Promise.all([fetchOrder(order.ID), fetchLineItems(order)])
+  }
+
   return (
     <Container maxW="100%" bgColor="st.mainBackgroundColor" flexGrow={1} p={[4, 6, 8]}>
       <Heading size="md" marginBottom={7}>
@@ -74,7 +78,7 @@ export function OrderDetail({
       </Heading>
       <VStack gap={orderDetailCardGap} width="full">
         <Card width="full">
-          <CardBody maxWidth={{xl: "container.xl"}}>
+          <CardBody maxWidth={{ xl: "container.xl" }}>
             <Stack
               direction={["column", "column", "row"]}
               gap={5}
@@ -88,7 +92,7 @@ export function OrderDetail({
             </Stack>
             {order.Comments && (
               <Stack
-                direction={{base: "column", md: "row"}}
+                direction={{ base: "column", md: "row" }}
                 maxWidth="sm"
                 border="1px solid"
                 borderColor="gray.200"
@@ -122,7 +126,7 @@ export function OrderDetail({
                         lineItems={shippableLineItems}
                         onUpdate={handleShipmentUpdate}
                         as="button"
-                        buttonProps={{colorScheme: "primary", size: "sm"}}
+                        buttonProps={{ colorScheme: "primary", size: "sm" }}
                       >
                         Create shipment
                       </ShipmentModal>
@@ -132,7 +136,10 @@ export function OrderDetail({
               </CardHeader>
               <CardBody>
                 <OrderProducts
+                  refreshOrderAndLines={refreshOrderAndLines}
+                  orderId={order.ID}
                   isAdmin={isAdmin}
+                  isOrderAwaitingApproval={order.Status === "AwaitingApproval"}
                   lineItems={lineItems}
                   suppliers={suppliers}
                   shipFromAddresses={shipFromAddresses}
@@ -182,7 +189,7 @@ export function OrderDetail({
                         allOrderReturns={returns}
                         onUpdate={handleReturnUpdate}
                         as="button"
-                        buttonProps={{colorScheme: "primary", size: "sm"}}
+                        buttonProps={{ colorScheme: "primary", size: "sm" }}
                       >
                         Create return
                       </ReturnModal>
@@ -195,7 +202,7 @@ export function OrderDetail({
               </CardBody>
             </Card>
           </VStack>
-          <VStack width="full" maxWidth={{xl: "350px"}} flexGrow={1} gap={orderDetailCardGap}>
+          <VStack width="full" maxWidth={{ xl: "350px" }} flexGrow={1} gap={orderDetailCardGap}>
             {isAdmin && (
               <Card width="full">
                 <CardHeader>
