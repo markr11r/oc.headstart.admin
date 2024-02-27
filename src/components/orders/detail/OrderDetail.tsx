@@ -139,7 +139,7 @@ export function OrderDetail({
                   refreshOrderAndLines={refreshOrderAndLines}
                   orderId={order.ID}
                   isAdmin={isAdmin}
-                  isOrderAwaitingApproval={order.Status === "AwaitingApproval"}
+                  isOrderAwaitingApproval={order.xp.OrderType === "Quote"} //isOrderAwaitingApproval={order.Status === "AwaitingApproval"}
                   lineItems={lineItems}
                   suppliers={suppliers}
                   shipFromAddresses={shipFromAddresses}

@@ -69,7 +69,7 @@ const SidebarMenu = ({ isInDrawer, onLinkClick }: SidebarMenuProps) => {
     },
     {
       label: "Quotes",
-      path: "/quotes",
+      path: "/quotes?status=Unsubmitted&orderType=Quote",
       icon: TbTag,
       permisshies: [appPermissions.OrderViewer, appPermissions.OrderManager]
     },

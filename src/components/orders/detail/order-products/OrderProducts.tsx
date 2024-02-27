@@ -49,7 +49,7 @@ export function OrderProducts({
       await Promise.all(
         diff.map((li) => LineItems.Patch("All", orderId, li.ID, { Quantity: li.Quantity, UnitPrice: li.UnitPrice }))
       )
-      await Orders.Patch("All", orderId, { xp: { SellerApproved: true } })
+      await Orders.Patch("All", orderId, { xp: { QuoteStatus: "NeedsBuyerReview" } }) //await Orders.Patch("All", orderId, { xp: { SellerApproved: true } })
       await refreshOrderAndLines()
     } finally {
       setHasChanges(false)
