@@ -78,6 +78,16 @@ export function LineItemTable({ lineItems, isEditable = false, onLineItemChange 
                             SKU: {lineItem.Product.ID}
                           </Text>
                         </Link>
+                        <Text fontSize="xs">
+                          {lineItem.Specs.map((spec) => {
+                            return (
+                              <>
+                                {spec.Name} <strong> {spec.Value}</strong><br />
+                              </>
+                            )
+                          }
+                          )}
+                        </Text>
                       </Flex>
                       <Hide above="sm">
                         <HStack width="full" justifyContent="space-between">
@@ -121,6 +131,6 @@ export function LineItemTable({ lineItems, isEditable = false, onLineItemChange 
           })}
         </Tbody>
       </Table>
-    </TableContainer>
+    </TableContainer >
   )
 }
